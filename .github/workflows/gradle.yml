@@ -19,13 +19,14 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: Setup Gradle
-        uses: gradle/gradle-build-action@v3
-        with:
-          gradle-version: wrapper
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+      - name: Generate Gradle Wrapper
+        run: |
+          mkdir -p gradle/wrapper
+          wget -O gradle/wrapper/gradle-wrapper.jar https://github.com/gradle/gradle/raw/master/gradle/wrapper/gradle-wrapper.jar
+          wget -O gradle/wrapper/gradle-wrapper.properties https://github.com/gradle/gradle/raw/master/gradle/wrapper/gradle-wrapper.properties
+          wget -O gradlew https://github.com/gradle/gradle/raw/master/gradlew
+          wget -O gradlew.bat https://github.com/gradle/gradle/raw/master/gradlew.bat
+          chmod +x gradlew
 
       - name: Build with Gradle
         run: ./gradlew build
